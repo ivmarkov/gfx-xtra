@@ -1,5 +1,7 @@
 # gfx-xtra
 
+[![CI](https://github.com/ivmarkov/gfx-xtra/actions/workflows/ci.yml/badge.svg)](https://github.com/ivmarkov/gfx-xtra/actions/workflows/ci.yml)
+
 Various add-ons to [embedded-graphics](https://github.com/embedded-graphics/embedded-graphics). 
 Currently, all of the add-ons are `DrawTarget` (display) transformations.
 
