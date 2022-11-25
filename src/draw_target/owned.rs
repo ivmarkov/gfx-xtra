@@ -41,6 +41,15 @@ where
     }
 }
 
+impl<T> Flushable for Owned<TranslatedT<T>>
+where
+    T: Flushable,
+{
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        self.0 .0.flush()
+    }
+}
+
 pub struct CroppedT<T>(pub(crate) T, pub(crate) Rectangle);
 
 impl<T> Transformer for CroppedT<T>
@@ -57,6 +66,15 @@ where
     }
 }
 
+impl<T> Flushable for Owned<CroppedT<T>>
+where
+    T: Flushable,
+{
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        self.0 .0.flush()
+    }
+}
+
 pub struct ClippedT<T>(pub(crate) T, pub(crate) Rectangle);
 
 impl<T> Transformer for ClippedT<T>
@@ -70,6 +88,15 @@ where
 
     fn transform(&mut self) -> Self::DrawTarget<'_> {
         self.0.clipped(&self.1)
+    }
+}
+
+impl<T> Flushable for Owned<ClippedT<T>>
+where
+    T: Flushable,
+{
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        self.0 .0.flush()
     }
 }
 
@@ -90,6 +117,16 @@ where
     }
 }
 
+impl<T, C> Flushable for Owned<ColorConvertedT<T, C>>
+where
+    T: Flushable,
+    C: PixelColor + Into<T::Color>,
+{
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        self.0 .0.flush()
+    }
+}
+
 pub struct RotatedT<T>(pub(crate) T, pub(crate) RotateAngle);
 
 impl<T> Transformer for RotatedT<T>
@@ -106,6 +143,15 @@ where
     }
 }
 
+impl<T> Flushable for Owned<RotatedT<T>>
+where
+    T: Flushable,
+{
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        self.0 .0.flush()
+    }
+}
+
 pub struct ScaledT<T>(pub(crate) T, pub(crate) Size);
 
 impl<T> Transformer for ScaledT<T>
@@ -119,6 +165,15 @@ where
 
     fn transform(&mut self) -> Self::DrawTarget<'_> {
         self.0.scaled(self.1)
+    }
+}
+
+impl<T> Flushable for Owned<ScaledT<T>>
+where
+    T: Flushable,
+{
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        self.0 .0.flush()
     }
 }
 
